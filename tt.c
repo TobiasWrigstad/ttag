@@ -141,7 +141,11 @@ int main(int argc, char** argv)
   else
     {
       char *editor = getenv("EDITOR");
-      assert(editor);
+      if (editor == NULL)
+        {
+          puts("Cannot continue: $EDITOR local environment variable not set!");
+          return -1;
+        }
 
       char *command = calloc(1024, sizeof(char));
       strcat(command, AG);
