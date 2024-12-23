@@ -1,6 +1,6 @@
 # tt -- simple script to create aliases for ag matches
 
-Essentially a rewrite of tag which hasn't been updated for ages.
+Essentially a rewrite of [tag](https://github.com/aykamko/tag) which hasn't been updated for ages.
 
 ## Dependencies
 - [ag](https://github.com/ggreer/the_silver_searcher)
