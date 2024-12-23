@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if there are no arguments
+if [[ $# -eq 0 ]]; then
+    echo "Usage: tt <args> (see ag for argument syntax)"
+    exit 1  # Exit the script with a non-zero status to indicate an error
+fi
+
 # Set the target file for persistent aliases (external file)
 ALIAS_FILE="/tmp/ttag_aliases"  # You can change this to another file if needed
 
