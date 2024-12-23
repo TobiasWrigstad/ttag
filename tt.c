@@ -20,7 +20,7 @@ void highlight(const char *input, const char *pattern, char *output, size_t maxl
   regmatch_t matches[2];  // 2 groups: whole match and group 1
 
   // Compile the regular expression
-  if (regcomp(&regex, pattern, REG_EXTENDED))
+  if (regcomp(&regex, pattern, REG_EXTENDED | REG_ICASE))
     {
       perror("Could not compile regex");
       abort();
@@ -35,7 +35,7 @@ void highlight(const char *input, const char *pattern, char *output, size_t maxl
     {
       if (bytes_remaining < 15) break;
       bytes_remaining -= 15; // Each match adds this many characters
-      
+
       // Copy text before the match (unmodified)
       int prefix_len = matches[0].rm_so;
       strncpy(out_ptr, start, prefix_len);
@@ -119,7 +119,7 @@ void process_line(char *line, char *search_pattern, char *editor, FILE *aliases)
       file_name = strdup(line);
       printf("%s%s%s\n", GREEN, file_name, RESET);
     }
-  else 
+  else
     {
       char errbuf[100];
       regerror(ret, &regex, errbuf, sizeof(errbuf));
@@ -136,7 +136,7 @@ int main(int argc, char** argv)
 {
   if (argc <= 1)
     {
-      puts("Usage: tt <args> (see man ag for argument syntax)");  
+      puts("Usage: tt <args> (see man ag for argument syntax)");
     }
   else
     {
@@ -147,14 +147,24 @@ int main(int argc, char** argv)
           return -1;
         }
 
-      char *command = calloc(1024, sizeof(char));
+      size_t command_len = strlen(AG);
+      size_t command_buf_siz = command_len + 128;
+      char *command = calloc(command_buf_siz, sizeof(char));
       strcat(command, AG);
       for (int i = 1; i < argc; ++i)
         {
+          size_t inc_bytes = strlen(argv[i]) + 1; // +1 for space
+          if (command_len + inc_bytes > command_buf_siz)
+            {
+              command_len += inc_bytes;
+              command_buf_siz += inc_bytes;
+              command = realloc(command, command_buf_siz);
+            }
+
           strcat(command, " ");
-          strncat(command, argv[i], 128);
+          strcat(command, argv[i]);
         }
-    
+
       FILE *search_results = popen(command, "r");
       FILE *aliases = fopen("/tmp/ttag_aliases", "w");
 
@@ -172,7 +182,7 @@ int main(int argc, char** argv)
               if (nl) *nl = '\0';
 
               // If line was empty then buf == nl
-              if (buf < nl) 
+              if (buf < nl)
                 {
                   process_line(buf, argv[argc-1], editor, aliases);
                 }
@@ -180,7 +190,7 @@ int main(int argc, char** argv)
                 {
                   puts(""); // Blank line
                 }
-        
+
               free(buf);
             }
           else
@@ -193,6 +203,6 @@ int main(int argc, char** argv)
       fclose(aliases);
       pclose(search_results);
     }
-  
+
   return 0;
 }
