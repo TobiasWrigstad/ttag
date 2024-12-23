@@ -4,9 +4,12 @@ Essentially a rewrite of [tag](https://github.com/aykamko/tag) which hasn't been
 
 ## Dependencies
 - [ag](https://github.com/ggreer/the_silver_searcher)
-- [bash](https://www.gnu.org/software/bash/manual/bash.html) or [zsh](https://www.zsh.org/)
+- [bash](https://www.gnu.org/software/bash/manual/bash.html) or [zsh](https://www.zsh.org/) or C/POSIX
 
-Note: creates a temporary file is /tmp/ttag_aliases
+## Notes
+
+- Creates a temporary file is /tmp/ttag_aliases
+- Considerably slower than tag because it is implemented in shell script (but has fewer dependencies)
 
 ## installation (in zsh)
 
