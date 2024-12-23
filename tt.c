@@ -28,7 +28,7 @@ void highlight(const char *input, const char *pattern, char *output, size_t maxl
 
   const char *start = input;
   char *out_ptr = output;
-  size_t bytes_remaining = maxlen - strlen(start);
+  size_t bytes_remaining = maxlen - strlen(start) - 1; // Extra -1 for \0
 
   // Loop through the input string and find matches
   while (regexec(&regex, start, 2, matches, 0) == 0)
