@@ -4,9 +4,9 @@ Essentially a rewrite of [tag](https://github.com/aykamko/tag) which hasn't been
 
 ## Dependencies
 - [ag](https://github.com/ggreer/the_silver_searcher)
-- [bash](https://www.gnu.org/software/bash/manual/bash.html) (rewrite to zsh will happen)
+- [bash](https://www.gnu.org/software/bash/manual/bash.html) or [zsh](https://www.zsh.org/)
 
-Other: creates a temporary file is /tmp/ttag_aliases
+Note: creates a temporary file is /tmp/ttag_aliases
 
 ## installation (in zsh)
 

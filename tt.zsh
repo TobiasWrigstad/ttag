@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Set the target file for persistent aliases (external file)
 ALIAS_FILE="/tmp/ttag_aliases"  # You can change this to another file if needed
@@ -11,24 +11,22 @@ RESET="\033[0m"
 YELLOW="\033[33m"
 MAGENTA="\033[35m"
 GREEN="\033[32m"
-HIGHLIGHT_COLOR="\033[31m"  # Red
 
 # The word to highlight is the last argument given to the script
-HIGHLIGHT_WORD="${@: -1}"
+HIGHLIGHT_WORD="${(@)argv[-1]}"  # Get the last argument (word to highlight)
 
 # Clear previous alias file (optional, comment out if you want to append)
-> "$ALIAS_FILE"
-chmod a+x "$ALIAS_FILE"
+echo "" > "$ALIAS_FILE"
 
-# Run X and process each line
+# Run ag and process each line
 /usr/bin/ag --group $* | while IFS= read -r line; do
     # Print the original line (preserve any colors X produces)
     
     # If the line contains ":", it must be linenumber:match
     if [[ "$line" =~ ^([0-9]+):(.+)$ ]]; then
         # Extract linenumber and match from the line
-        linenumber="${BASH_REMATCH[1]}"
-        match="${BASH_REMATCH[2]}"
+        linenumber="${match[1]}"
+        match="${match[2]}"
         
         # Add the alias definition to the external file
         echo "alias e$i='$EDITOR $filename +$linenumber'" >> "$ALIAS_FILE"
