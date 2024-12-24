@@ -15,7 +15,8 @@
 const char *alias_file = "/tmp/ttag_aliases";
 
 // Function to add ANSI escape sequences to the input string
-void highlight(const char *input, const char *pattern, char *output, size_t maxlen) {
+void highlight(const char *input, const char *pattern, char *output, size_t maxlen)
+{
   regex_t regex;
   regmatch_t matches[2];  // 2 groups: whole match and group 1
 
